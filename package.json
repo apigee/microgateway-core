@@ -8,6 +8,7 @@
     "debug": "~2.2.0",
     "lodash": "~3.9.3",
     "request": "~2.69.0",
+    "stats-client": "^1.0.0",
     "uuid": "~2.0.1",
     "winston": "~2.2.0",
     "winston-daily-rotate-file": "~1.0.1"
