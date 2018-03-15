@@ -10,7 +10,7 @@
     "minimatch": "^3.0.4",
     "request": "~2.74.0",
     "tunnel-agent": "^0.4.3",
-    "uuid": "~2.0.1"
+    "uuid": "~3.2.1"
   },
   "devDependencies": {
     "chai": "~2.3.0",

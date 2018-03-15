@@ -2,7 +2,7 @@
 const assert = require('assert')
 var path = require('path')
 var gateway = require('./index');
-var uuid = require('uuid');
+var uuid = require('uuid/v1');
 
 //todo replace this with better logic.
 var key, secret, source;
