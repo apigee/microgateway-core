@@ -1,7 +1,5 @@
 {
   "name": "microgateway-core",
-  "version": "2.5.2",
-  "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
     "abbrev": {
@@ -1547,4 +1545,6 @@
       }
     }
   }
+  "version": "2.5.3",
+  "lockfileVersion": 1
 }
