@@ -1,15 +1,15 @@
 {
   "name": "microgateway-core",
-  "version": "2.5.9",
+  "version": "2.5.10-beta",
   "description": "Core engine for Apigee Edge Microgateway",
   "main": "index.js",
   "dependencies": {
     "async": "~1.5.2",
-    "debug": "~2.2.0",
-    "lodash": "~3.9.3",
+    "debug": "~3.1.0",
+    "lodash": "~4.17.10",
     "minimatch": "^3.0.4",
-    "request": "~2.74.0",
-    "tunnel-agent": "^0.4.3",
+    "request": "~2.87.0",
+    "tunnel-agent": "^0.6.0",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
