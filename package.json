@@ -15,8 +15,8 @@
   "devDependencies": {
     "chai": "~2.3.0",
     "istanbul": "~0.4.2",
-    "mocha": "~2.2.4",
-    "restify": "~4.0.3",
+    "mocha": "~5.2.0",
+    "restify": "~7.2.1",
     "should": "~8.2.2",
     "tmp": "0.0.28"
   },
