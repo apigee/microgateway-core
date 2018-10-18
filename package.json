@@ -8,6 +8,7 @@
     "debug": "~3.1.0",
     "lodash": "~4.17.10",
     "minimatch": "^3.0.4",
+    "opentracing": "^0.14.3",
     "request": "~2.87.0",
     "tunnel-agent": "^0.6.0",
     "uuid": "^3.2.1"
@@ -15,8 +16,8 @@
   "devDependencies": {
     "chai": "~2.3.0",
     "istanbul": "~0.4.2",
-    "mocha": "~2.2.4",
-    "restify": "~4.0.3",
+    "mocha": "~5.2.0",
+    "restify": "~7.2.1",
     "should": "~8.2.2",
     "tmp": "0.0.28"
   },
