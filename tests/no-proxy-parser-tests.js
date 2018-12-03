@@ -66,7 +66,7 @@ describe('no proxy variable parsing and matching', () => {
     const matched = NoProxyParseAndMatch('', 'localhost');
     assert.equal(matched, false);
   });
-  
+
   it('will parse and match a host when no proxy is comma delimited list', ()=> {
     const matched = NoProxyParseAndMatch('http://localhost/', 'localhost,foo.bar,bar.baz');
     assert.equal(matched, true);
@@ -101,5 +101,93 @@ describe('no proxy variable parsing and matching', () => {
   it('will not partially match hosts with only one in no_proxy list', () => {
     const matched = NoProxyParseAndMatch('http://foo/', 'foo.bar');
     assert.equal(matched, false);
+  });
+
+  it('will check if no_proxy (*foo.com) matches foo.com', () => {
+    const matched = NoProxyParseAndMatch('http://foo.com/', '*foo.com');
+    assert.equal(matched, true);
+  });
+
+  it('will check if no_proxy (....foo.com) does not match testing.foo.com', () => {
+    const matched = NoProxyParseAndMatch('http://testing.foo.com/', '....foo.com');
+    assert.equal(matched, false);
+  });
+
+  it('will check if no_proxy (*.foo.com) matches testing.foo.com', () => {
+    const matched = NoProxyParseAndMatch('http://testing.foo.com/', '*.foo.com');
+    assert.equal(matched, true);
+  });
+
+  it('will check if no_proxy matches testing.foo2.com and hostname should not match', () => {
+    const matched = NoProxyParseAndMatch('http://testing.foo2.com/', '*.foo.com');
+    assert.equal(matched, false);
+  });
+
+  it('will check if no_proxy matches testing.foobcom does not match testing.foobcom', () => {
+    const matched = NoProxyParseAndMatch('http://testing.foobcom/', '*.foo.com');
+    assert.equal(matched, false);
+
+  });
+
+  it('will check if no_proxy = localhost,*.foo.com does not match hostname = testing.bar.com', () => {
+    const matched = NoProxyParseAndMatch('http://testing.bar.com/', 'localhost,*.foo.com');
+    assert.equal(matched, false);
+
+  });
+
+  it('will check if no_proxy has localhost,*.foo.com matches hostname testing.foo.com', () => {
+    const matched = NoProxyParseAndMatch('http://testing.foo.com/', 'localhost,*.foo.com');
+    assert.equal(matched, true);
+
+  });
+
+  it('will check if no_proxy has localhost,*.foo.com does not match hostname testing.foobcom', () => {
+    const matched = NoProxyParseAndMatch('http://testing.foobcom/', 'localhost,*.foo.com');
+    assert.equal(matched, false);
+
+  });
+
+
+  it('will check if no_proxy has localhost,.foo*.com matches hostname testing.foo.hello.com', () => {
+    const matched = NoProxyParseAndMatch('http://testing.foo.hello.com/', 'localhost,.foo*.com');
+    assert.equal(matched, true);
+
+  });
+
+  it('will check if no_proxy has localhost,foo*.com and hostname testing-foo.hello.com', () => {
+    const matched = NoProxyParseAndMatch('http://testing-foo.hello.com/', 'localhost,foo*.com');
+    assert.equal(matched, true);
+
+  });
+
+
+  it('will check if no_proxy has foo*.com:4000 does not match hostname testing-foo.hello.com', () => {
+    const matched = NoProxyParseAndMatch('http://testing-foo.hello.com/', 'foo*.com:4000');
+    assert.equal(matched, false);
+
+  });
+
+  it('will check if no_proxy has foo*.com:4000 matches hostname testing-foo.hello.com:4000', () => {
+    const matched = NoProxyParseAndMatch('http://testing-foo.hello.com:4000/', 'foo*.com:4000');
+    assert.equal(matched, true);
+
+  });
+
+  it('will check if no_proxy has localhost,checkers.part.com,foo*.com:4000 matches hostname testing-foo.hello.com:4000', () => {
+    const matched = NoProxyParseAndMatch('http://testing-foo.hello.com:4000/', 'localhost,checkers.part.com,foo*.com:4000');
+    assert.equal(matched, true);
+
+  });
+
+  it('will check if no_proxy has localhost,checkers.part.com,foo*.com matches hostname testing-foo.hello.com:4000', () => {
+    const matched = NoProxyParseAndMatch('http://testing-foo.hello.com:4000/', 'localhost,checkers.part.com,foo*.com');
+    assert.equal(matched, true);
+
+  });
+
+  it('will check if no_proxy has localhost,checkers.part.com,foo*.com:4000,testing-bar.hello.com matches hostname testing-bar.hello.com', () => {
+    const matched = NoProxyParseAndMatch('http://testing-bar.hello.com/', 'localhost,checkers.part.com,foo*.com:4000,testing-bar.hello.com');
+    assert.equal(matched, true);
+
   });
 });
