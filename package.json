@@ -10,6 +10,7 @@
     "minimatch": "^3.0.4",
     "opentracing": "^0.14.3",
     "request": "~2.87.0",
+    "sanitizer": "^0.1.3",
     "tunnel-agent": "^0.6.0",
     "uuid": "^3.2.1"
   },
