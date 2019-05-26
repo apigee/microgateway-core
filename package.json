@@ -1,6 +1,6 @@
 {
   "name": "microgateway-core",
-  "version": "2.5.17",
+  "version": "2.5.18",
   "description": "Core engine for Apigee Edge Microgateway",
   "main": "index.js",
   "dependencies": {
