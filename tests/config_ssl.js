@@ -30,8 +30,8 @@ var server
 const startGateway = (config, handler, done) => {
   server = restify.createServer({});
 
-  server.use(restify.gzipResponse());
-  server.use(restify.bodyParser());
+  server.use(restify.plugins.gzipResponse());
+  server.use(restify.plugins.bodyParser());
 
   server.get('/', handler);
 

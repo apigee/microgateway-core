@@ -25,8 +25,8 @@ var server
 const startGateway = (config, handler, done) => {
   server = restify.createServer({});
 
-  server.use(restify.gzipResponse());
-  server.use(restify.bodyParser());
+  server.use(restify.plugins.gzipResponse());
+  server.use(restify.plugins.bodyParser());
 
   server.get('/', handler);
 
@@ -56,6 +56,10 @@ describe('test configuration handling', () => {
     describe('host', () => {
       it('false (default value)', (done) => {
         startGateway(baseConfig, (req, res, next) => {
+    console.log("TEST TESTS:>> ");
+            console.log('localhost:' + port);
+            console.log(req.headers.host);
+            //
           assert.equal('localhost:' + port, req.headers.host)
           res.end('OK')
         }, () => {

@@ -36,3 +36,6 @@ node_modules
 .idea
 .vscode
 .DS_Store
+
+# ignore test processing directories
+test-quarantine
