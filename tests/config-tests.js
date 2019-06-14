@@ -56,7 +56,6 @@ describe('test configuration handling', () => {
     describe('host', () => {
       it('false (default value)', (done) => {
         startGateway(baseConfig, (req, res, next) => {
-    console.log("TEST TESTS:>> ");
             console.log('localhost:' + port);
             console.log(req.headers.host);
             //
