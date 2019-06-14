@@ -6,7 +6,9 @@
   "dependencies": {
     "async": "~1.5.2",
     "debug": "~3.1.0",
-    "lodash": "~4.17.10",
+    "helper": "0.0.13",
+    "lodash": "^4.17.11",
+    "microgateway-config": "^2.4.9",
     "minimatch": "^3.0.4",
     "opentracing": "^0.14.3",
     "request": "~2.87.0",
@@ -17,14 +19,15 @@
   "devDependencies": {
     "chai": "~2.3.0",
     "istanbul": "~0.4.2",
-    "mocha": "~5.2.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.3.0",
     "restify": "~7.2.1",
     "should": "~8.2.2",
+    "test-until": "^1.1.1",
     "tmp": "0.0.28"
   },
   "scripts": {
     "start": "node server.js",
-    "test": "NODE_ENV=test node_modules/mocha/bin/_mocha --recursive tests",
-    "coverage": "DEBUG=gateway:* NODE_ENV=test node node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- tests"
+    "test": "NODE_ENV=test nyc mocha tests"
   }
 }

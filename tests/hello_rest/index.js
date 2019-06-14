@@ -17,9 +17,10 @@ module.exports = function (bodyMap) {
   }
 
   var server = restify.createServer({});
+    
+  server.use(restify.plugins.bodyParser());
+  server.use(restify.plugins.gzipResponse());
 
-  server.use(restify.gzipResponse());
-  server.use(restify.bodyParser());
 
   server.get('/echo/:key', respond);
   //server.delete('/echo/:key', respond);
