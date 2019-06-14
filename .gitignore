@@ -39,3 +39,4 @@ node_modules
 
 # ignore test processing directories
 test-quarantine
+tools

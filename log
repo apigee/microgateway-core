@@ -1,2 +1,0 @@
-lib/logging.js:83:          console.warn('error writing log', err);
-lib/logging.js:83:          console.warn('error writing log', err);
