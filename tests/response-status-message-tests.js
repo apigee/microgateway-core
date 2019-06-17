@@ -19,7 +19,7 @@ const startGateway = (config, handler, done) => {
   server = http.createServer(handler);
 
   server.listen(port, function() {
-    console.log('%s listening at %s', server.name, server.url)
+    console.log('API Server listening at %s', JSON.stringify(server.address()))
 
     gateway = gatewayService(config)
 
