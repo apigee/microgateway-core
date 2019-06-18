@@ -3,6 +3,11 @@
   "version": "2.5.17",
   "description": "Core engine for Apigee Edge Microgateway",
   "main": "index.js",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apigee/microgateway-core.git"
+  },
   "dependencies": {
     "async": "~1.5.2",
     "debug": "~3.1.0",
