@@ -1,10 +1,9 @@
 'use strict';
 var debug = require('debug')('gateway:index');
-var util = require('util');
 var gateway = require('./lib/gateway');
 var assert = require('assert');
 var logging = require('./lib/logging');
-var stats = require('./lib/stats');
+
 
 var pluginsLib = require('./lib/plugins');
 var uuid = require('uuid')
@@ -33,8 +32,8 @@ module.exports = function (config) {
 
 module.exports.Logging = logging;
 Gateway.prototype.start = function (cb) {
-  const logger =logging.getLogger();
-  const config = configService.get();
+  //const logger =logging.getLogger();
+  //const config = configService.get();
   let plugins  = this.plugins;
   debug('starting edgemicro');
   //debug('loaded config ' + util.inspect(config, {colors: true}));

@@ -1,4 +1,14 @@
 {
-    "esversion": 6,
-    "node": true
+	"asi" : true,
+	"esversion" : 6,
+	"node" : true,
+	"sub" : true,
+	"strict": true,
+ 	"white": true,
+ 	"unused": true,
+ 	"eqeqeq": true,
+ 	"maxparams": 10,
+ 	"maxdepth": 8,
+ 	"maxstatements": 25,
+ 	"maxcomplexity": 10
 }
