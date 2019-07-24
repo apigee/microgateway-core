@@ -6,7 +6,7 @@ var logging = require('./lib/logging');
 
 
 var pluginsLib = require('./lib/plugins');
-var uuid = require('uuid')
+var uuid = require('uuid');
 var configService = require('./lib/config');
 var _ = require('lodash');
 
@@ -16,10 +16,10 @@ var _ = require('lodash');
  * @param cb callback when started
  */
 var Gateway = function (config) {
-  assert(config, 'options must contain config')
-  config.uid = uuid.v1()
+  assert(config, 'options must contain config');
+  config.uid = uuid.v1();
   configService.init(config);
-  logging.init()
+  logging.init();
   this.plugins = [];
   this.pluginLoader = pluginsLib();
 
@@ -28,7 +28,7 @@ var Gateway = function (config) {
 
 module.exports = function (config) {
   return new Gateway(config);
-}
+};
 
 module.exports.Logging = logging;
 Gateway.prototype.start = function (cb) {
@@ -47,10 +47,10 @@ Gateway.prototype.start = function (cb) {
 
 Gateway.prototype.stop = function(cb){
   gateway.stop(cb);
-}
+};
 
 Gateway.prototype.addPlugin = function (name,plugin) {
-  assert(name,"plugin must have a name")
+  assert(name,"plugin must have a name");
   assert(_.isString(name),"name must be a string");
   assert(_.isFunction(plugin),"plugin must be a function(config,logger,stats){return {onresponse:function(req,res,data,next){}}}");
   const handler = this.pluginLoader.loadPlugin({plugin:plugin,pluginName:name});

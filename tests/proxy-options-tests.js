@@ -6,11 +6,11 @@ describe('Building non tunnel options', ()=> {
     it('Will properly build non tunnel options for the given inputs', ()=> {
         var proxy = {
             secure: true
-        }
+        };
 
         var proxyConfig = {
             proxy: 'http://localhost:8080'
-        }
+        };
 
         var requestOptions = {
             path: '/',
@@ -21,7 +21,7 @@ describe('Building non tunnel options', ()=> {
             headers: {
                 'foo': 'bar'
             }
-        }
+        };
 
         var opts = BuildNonTunnelOptions(proxy, requestOptions, proxyConfig.proxy);
         
@@ -38,11 +38,11 @@ describe('Building non tunnel options', ()=> {
     it('Will properly build non tunnel options for the path supplied', ()=> {
         var proxy = {
             secure: true
-        }
+        };
 
         var proxyConfig = {
             proxy: 'http://localhost:8080'
-        }
+        };
 
         var requestOptions = {
             path: '/?foo=bar',
@@ -53,7 +53,7 @@ describe('Building non tunnel options', ()=> {
             headers: {
                 'foo': 'bar'
             }
-        }
+        };
 
         var opts = BuildNonTunnelOptions(proxy, requestOptions, proxyConfig.proxy);
         
@@ -70,11 +70,11 @@ describe('Building non tunnel options', ()=> {
     it('Will properly build non tunnel options for the non-secure proxy supplied', ()=> {
         var proxy = {
             secure: false
-        }
+        };
 
         var proxyConfig = {
             proxy: 'http://localhost:8080'
-        }
+        };
 
         var requestOptions = {
             path: '/?foo=bar',
@@ -85,7 +85,7 @@ describe('Building non tunnel options', ()=> {
             headers: {
                 'foo': 'bar'
             }
-        }
+        };
 
         var opts = BuildNonTunnelOptions(proxy, requestOptions, proxyConfig.proxy);
         

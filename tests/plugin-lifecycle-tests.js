@@ -4,7 +4,7 @@ var gatewayService = require('../index');
 var serverFactory = require('./hello_rest/index');
 var TestPlugin = require('./testPlugin');
 var request = require('request');
-var should = require('should')
+var should = require('should');
 
 
 describe('test lifecycle events', function() {
@@ -19,7 +19,7 @@ describe('test lifecycle events', function() {
     put: {"put": "puttest"},
     delete: {"delete": "deletetest"}
 
-  }
+  };
   var server = serverFactory(bodyMap);
   config = {
     edgemicro: {
@@ -44,7 +44,7 @@ describe('test lifecycle events', function() {
     });
     server.close();
     done();
-  })
+  });
 
   it('POST lifecycle all events run', function (done) {
     this.timeout(20000);
@@ -56,7 +56,7 @@ describe('test lifecycle events', function() {
     });
     var handler = testPlugin.init();
     gateway.addPlugin('test', function test() {
-      return handler
+      return handler;
     });
     gateway.start(function (err) {
       assert(!err, err);
@@ -88,7 +88,7 @@ describe('test lifecycle events', function() {
       cb();
     });
     var handler = testPlugin.init();
-    gateway.addPlugin('test', function test() { return handler });
+    gateway.addPlugin('test', function test() { return handler; });
     gateway.start(function(err) {
       assert(!err, err);
       request({
@@ -114,7 +114,7 @@ describe('test lifecycle events', function() {
       cb();
     });
     var handler = testPlugin.init();
-    gateway.addPlugin('test', function test() { return handler });
+    gateway.addPlugin('test', function test() { return handler; });
     gateway.start(function(err) {
       assert(!err, err);
       request({ method: "GET", url: 'http://localhost:' + gatewayPort + '/v1/echo/get', json: true }, (err, r, body) => {
@@ -135,8 +135,8 @@ describe('test lifecycle events', function() {
       types[type] = data;
       cb();
     });
-    var handler = testPlugin.init()
-    gateway.addPlugin('test', function test() { return handler });
+    var handler = testPlugin.init();
+    gateway.addPlugin('test', function test() { return handler; });
     gateway.start(function(err) {
       assert(!err, err);
       request({
@@ -165,7 +165,7 @@ describe('test lifecycle events', function() {
       }
       cb();
     });
-    var handler = testPlugin.init()
+    var handler = testPlugin.init();
 
     handler.onresponse = function(req, res, data, next) {
       types['onresponse'] = data;
@@ -180,7 +180,7 @@ describe('test lifecycle events', function() {
       next(true, null);
     };
 
-    gateway.addPlugin('test', function test() { return handler });
+    gateway.addPlugin('test', function test() { return handler; });
     gateway.start(function(err) {
       assert(!err, err);
       request({
@@ -207,7 +207,7 @@ describe('test lifecycle events', function() {
       types[type] = data;
       cb();
     });
-    var handler = testPlugin.init()
+    var handler = testPlugin.init();
 
 
     handler.onresponse = function(req, res, data, next) {
@@ -217,7 +217,7 @@ describe('test lifecycle events', function() {
       throw new Error("test is barked");
     };
 
-    gateway.addPlugin('test', function test() { return handler });
+    gateway.addPlugin('test', function test() { return handler; });
     gateway.start(function(err) {
       assert(!err, err);
       request({
@@ -244,7 +244,7 @@ describe('test lifecycle events', function() {
       types[type] = data;
       cb();
     });
-    var handler = testPlugin.init()
+    var handler = testPlugin.init();
 
     handler.onresponse = function(req, res, data, next) {
       types['onresponse'] = data;
@@ -253,7 +253,7 @@ describe('test lifecycle events', function() {
       next(new Error("test is borked"));
     };
 
-    gateway.addPlugin('test', function test() { return handler });
+    gateway.addPlugin('test', function test() { return handler; });
     gateway.start(function(err) {
       assert(!err, err);
       request({
@@ -280,9 +280,9 @@ describe('test lifecycle events', function() {
       types[type] = data;
       cb();
     });
-    var handler = testPlugin.init()
+    var handler = testPlugin.init();
     server.close(() => {
-      gateway.addPlugin('test', function test() { return handler });
+      gateway.addPlugin('test', function test() { return handler; });
       gateway.start(function(err) {
         assert(!err, err);
         request({
@@ -306,6 +306,6 @@ describe('test lifecycle events', function() {
 function _findHeaders(headers, expectedHeaders) {
   var foundHeaders = expectedHeaders.filter((val) => {
     return headers ? headers[val] : false;
-  })
+  });
   return foundHeaders;
 }

@@ -1,25 +1,25 @@
-'use strict'
+'use strict';
 
-const _ = require('lodash')
-const assert = require('assert')
-const gatewayService = require('../index')
-const request = require('request')
-const http = require('http')
-const https = require('https')
-const should = require('should')
+const _ = require('lodash');
+const assert = require('assert');
+const gatewayService = require('../index');
+const request = require('request');
+const http = require('http');
+const https = require('https');
+const should = require('should');
 const fs = require('fs');
 const net = require('net');
 const tls = require('tls');
 const url = require('url');
 const util = require('util');
 
-const gatewayPort = 8800
+const gatewayPort = 8800;
 const proxyPort = 4490;
-const port = 3300
+const port = 3300;
 
-var gateway
-var proxy
-var server
+var gateway;
+var proxy;
+var server;
 
 const startGateway = (config, handler, done) => {
   const opts = {
@@ -58,7 +58,7 @@ const startGateway = (config, handler, done) => {
       targetConnection.write(head);
       targetConnection.pipe(cltSocket);
       cltSocket.pipe(targetConnection);
-    } 
+    };
 
     var targetUrl = url.parse(util.format('%s://%s', proto, req.url));
 
@@ -87,29 +87,29 @@ const startGateway = (config, handler, done) => {
   server = http.createServer(handler);
 
   server.listen(port, function() {
-    console.log('API Server listening at %s', JSON.stringify(server.address()))
+    console.log('API Server listening at %s', JSON.stringify(server.address()));
     proxy.listen(proxyPort, function() {
-      console.log('Proxy Server listening at %s',JSON.stringify(server.address()))
-      gateway = gatewayService(config)
-      done()
+      console.log('Proxy Server listening at %s',JSON.stringify(server.address()));
+      gateway = gatewayService(config);
+      done();
     }); 
     
-  })
-}
+  });
+};
 
 describe('test configuration handling', () => {
   afterEach((done) => {
     if (gateway) {
-      gateway.stop(() => {})
+      gateway.stop(() => {});
     }
 
     if (server) {
-      server.close()
-      proxy.close()
+      server.close();
+      proxy.close();
     }
 
-    done()
-  })
+    done();
+  });
 
   describe('proxy', () => {
     describe('non tunneling https proxy', () => {
@@ -136,26 +136,26 @@ describe('test configuration handling', () => {
               }
             }  
           ]
-        }
+        };
 
         startGateway(baseConfig, (req, res) => {
-          assert.equal('localhost:' + proxyPort, req.headers.host)
-          res.end('OK')
+          assert.equal('localhost:' + proxyPort, req.headers.host);
+          res.end('OK');
         }, () => {
           gateway.start((err) => {
-            assert.ok(!err, err)
+            assert.ok(!err, err);
 
             request({
               method: 'GET',
               url: 'http://localhost:' + gatewayPort + '/v1'
             }, (err, r, body) => {
-              assert.ok(!err, err)
-              assert.equal(r.statusCode, 200)
-              done()
-            })
-          })
-        })
-      })
+              assert.ok(!err, err);
+              assert.equal(r.statusCode, 200);
+              done();
+            });
+          });
+        });
+      });
 
       it('route traffic through an http proxy with forced non-tunneling', (done) => {
         
@@ -181,26 +181,26 @@ describe('test configuration handling', () => {
               }
             }  
           ]
-        }
+        };
 
         startGateway(baseConfig, (req, res) => {
-          assert.equal('localhost:' + proxyPort, req.headers.host)
-          res.end('OK')
+          assert.equal('localhost:' + proxyPort, req.headers.host);
+          res.end('OK');
         }, () => {
           gateway.start((err) => {
-            assert.ok(!err, err)
+            assert.ok(!err, err);
           
             request({
               method: 'GET',
               url: 'http://localhost:' + gatewayPort + '/v1'
             }, (err, r, body) => {
-              assert.ok(!err)
-              assert.equal(r.statusCode, 200)
-              done()
-            })
-          })
-        })
-      })
+              assert.ok(!err);
+              assert.equal(r.statusCode, 200);
+              done();
+            });
+          });
+        });
+      });
 
       it('route traffic through an http proxy with forced tunneling', (done) => {
         //We need to do this to have the tunnel-agent reject self signed certs
@@ -229,27 +229,27 @@ describe('test configuration handling', () => {
               }
             }  
           ]
-        }
+        };
 
         startGateway(baseConfig, (req, res) => {
-          assert.equal('localhost:' + port, req.headers.host)
-          res.end('OK')
+          assert.equal('localhost:' + port, req.headers.host);
+          res.end('OK');
         }, () => {
           gateway.start((err) => {
-            assert.ok(!err, err)
+            assert.ok(!err, err);
 
             request({
               method: 'GET',
               url: 'http://localhost:' + gatewayPort + '/v1'
             }, (err, r, body) => {
-              assert.ok(!err, err)
-              assert.equal(r.statusCode, 200)
-              done()
-            })
-          })
-        })
-      })
+              assert.ok(!err, err);
+              assert.equal(r.statusCode, 200);
+              done();
+            });
+          });
+        });
+      });
 
-    })
-  })
-})
+    });
+  });
+});

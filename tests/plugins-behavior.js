@@ -14,12 +14,12 @@ describe('plugin behavior', () => {
         assert.equal(typeof next, 'function');
         next(null, null);      
       }
-    }
+    };
 
     var opts = {
       sourceRequest: 'foo',
       sourceResponse: 'bar',
-    }
+    };
 
     PluginsMiddleware.getPluginHookForEvent(plugins, 'data', opts)('foo', (arg1, arg2) =>{
       assert.equal(arg1, null);
@@ -37,12 +37,12 @@ describe('plugin behavior', () => {
         assert.equal(typeof next, 'function');
         next(null, null);
       }
-    }
+    };
 
     var opts = {
       sourceRequest: 'foo',
       sourceResponse: 'bar',
-    }
+    };
 
     PluginsMiddleware.getPluginHookForEvent(plugins, 'data', opts)('foo', (arg1, arg2) =>{
       assert.equal(arg1, null);
@@ -61,13 +61,13 @@ describe('plugin behavior', () => {
         assert.equal(typeof next, 'function');
         next(null, null); 
       }
-    }
+    };
 
     var opts = {
       sourceRequest: 'foo',
       sourceResponse: 'bar',
       targetResponse: 'quux',
-    }
+    };
 
     PluginsMiddleware.getPluginHookForEvent(plugins, 'data', opts)('foo', (arg1, arg2) =>{
       assert.equal(arg1, null);

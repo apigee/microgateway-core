@@ -26,7 +26,7 @@ TestPlugin.prototype.init = function myPlugin1() {
         res.setHeader("x-onrequest-visited", 'true');
         headers.push("x-onrequest-visited");
         next.apply();
-      }, req, res)
+      }, req, res);
     },
 
     onresponse: function (req, res, data, next) {
@@ -34,41 +34,41 @@ TestPlugin.prototype.init = function myPlugin1() {
         res.setHeader("x-onresponse-visited", 'true');
         headers.push("x-onresponse-visited");
         next(null, data);
-      }, req, res)
+      }, req, res);
     },
     ondata_request: function (req, res, data, next) {
       cb('ondata_request', data, function () {
         next(null, data);
-      }, req, res)
+      }, req, res);
     },
     ondata_response: function (req, res, data, next) {
       cb('ondata_response', data, function () {
         next(null, data);
-      }, req, res)
+      }, req, res);
     },
     onend_request: function (req, res, data, next) {
       cb('onend_request', data, function () {
         next(null, data);
-      }, req, res)
+      }, req, res);
     },
     onend_response: function (req, res, data, next) {
       cb('onend_response', data, function () {
         next(null, data);
-      }, req, res)
+      }, req, res);
     },
     onerror_request: function (req, res, data, next) {
       cb('onerror_request', data, function () {
         next();
-      }, req, res)
+      }, req, res);
     },
     onerror_response: function (req, res, data, next) {
       cb('onerror_response', data, function () {
         res.setHeader("x-onerror_response-visited", 'true');
         headers.push("x-onerror_response-visited");
         next();
-      }, req, res)
+      }, req, res);
     }
   };
 
 
-}
+};

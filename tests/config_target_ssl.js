@@ -1,15 +1,15 @@
-'use strict'
+'use strict';
 
-const _ = require('lodash')
-const assert = require('assert')
-const gatewayService = require('../index')
-const request = require('request')
-const https = require('https')
-const should = require('should')
+const _ = require('lodash');
+const assert = require('assert');
+const gatewayService = require('../index');
+const request = require('request');
+const https = require('https');
+const should = require('should');
 const fs = require('fs');
 
-const gatewayPort = 8810
-const port = 3310
+const gatewayPort = 8810;
+const port = 3310;
 const baseConfig = {
   edgemicro: {
     port: gatewayPort,
@@ -30,10 +30,10 @@ const baseConfig = {
       }
     }  
   ]
-}
+};
 
-var gateway
-var server
+var gateway;
+var server;
 
 const startGateway = (config, handler, done) => {
   const opts = {
@@ -43,46 +43,46 @@ const startGateway = (config, handler, done) => {
   server = https.createServer(opts, handler);
 
   server.listen(port, function() {
-    console.log('API Server listening at %s', JSON.stringify(server.address()))
-    gateway = gatewayService(config)
-    done()
+    console.log('API Server listening at %s', JSON.stringify(server.address()));
+    gateway = gatewayService(config);
+    done();
   })
-}
+};
 
 describe('test configuration handling TLS/SSL', () => {
   afterEach((done) => {
     if (gateway) {
-      gateway.stop(() => {})
+      gateway.stop(() => {});
     }
 
     if (server) {
-      server.close()
+      server.close();
     }
 
-    done()
-  })
+    done();
+  });
 
   describe('target', () => {
     describe('ssl', () => {
       it('ssl can be enabled between em and target', (done) => {
         startGateway(baseConfig, (req, res) => {
-          assert.equal('localhost:' + port, req.headers.host)
+          assert.equal('localhost:' + port, req.headers.host);
           res.end('OK')
         }, () => {
           gateway.start((err) => {
-            assert(!err, err)
+            assert(!err, err);
 
             request({
               method: 'GET',
               url: 'http://localhost:' + gatewayPort + '/v1'
             }, (err, r, body) => {
-              assert(!err, err)
-              assert.equal('OK', body)
+              assert(!err, err);
+              assert.equal('OK', body);
               done()
-            })
-          })
-        })
-      })
-    })
-  })
-})
+            });
+          });
+        });
+      });
+    });
+  });
+});

@@ -1,44 +1,44 @@
-'use strict'
+'use strict';
 
-const _ = require('lodash')
-const assert = require('assert')
-const gatewayService = require('../index')
-const request = require('request')
-const http = require('http')
-const should = require('should')
+const _ = require('lodash');
+const assert = require('assert');
+const gatewayService = require('../index');
+const request = require('request');
+const http = require('http');
+const should = require('should');
 const fs = require('fs');
 
-const gatewayPort = 8800
-const port = 3300
+const gatewayPort = 8800;
+const port = 3300;
 
-var gateway
-var server
+var gateway;
+var server;
 
 const startGateway = (config, handler, done) => {
 
   server = http.createServer(handler);
 
   server.listen(port, function() {
-    console.log('API Server listening at %s', JSON.stringify(server.address()))
+    console.log('API Server listening at %s', JSON.stringify(server.address()));
 
-    gateway = gatewayService(config)
+    gateway = gatewayService(config);
 
-    done()
-  })
-}
+    done();
+  });
+};
 
 describe('test target response status message', () => {
   afterEach((done) => {
     if (gateway) {
-      gateway.stop(() => {})
+      gateway.stop(() => {});
     }
 
     if (server) {
-      server.close()
+      server.close();
     }
 
-    done()
-  })
+    done();
+  });
 
   describe('target', () => {
     describe('response', () => {
@@ -53,28 +53,28 @@ describe('test target response status message', () => {
           proxies: [
             { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
           ]
-        }
+        };
 
         startGateway(baseConfig, (req, res) => {
-          assert.equal('localhost:' + port, req.headers.host)
-          res.writeHead(200, 'What a great message for a great request!')
-          res.end('OK')
+          assert.equal('localhost:' + port, req.headers.host);
+          res.writeHead(200, 'What a great message for a great request!');
+          res.end('OK');
         }, () => {
           gateway.start((err) => {
-            assert.ok(!err, err)
+            assert.ok(!err, err);
 
             request({
               method: 'GET',
               url: 'http://localhost:' + gatewayPort + '/v1'
             }, (err, r, body) => {
-              assert.ok(!err, err)
-              assert.equal(r.statusCode, 200)
-              assert.equal(r.statusMessage, 'What a great message for a great request!')
-              done()
-            })
-          })
-        })
-      })
-    })
-  })
-})
+              assert.ok(!err, err);
+              assert.equal(r.statusCode, 200);
+              assert.equal(r.statusMessage, 'What a great message for a great request!');
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
+});

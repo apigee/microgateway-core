@@ -1,14 +1,14 @@
-'use strict'
+'use strict';
 
-const _ = require('lodash')
-const assert = require('assert')
-const gatewayService = require('../index')
-const request = require('request')
-const restify = require('restify')
-const should = require('should')
+const _ = require('lodash');
+const assert = require('assert');
+const gatewayService = require('../index');
+const request = require('request');
+const restify = require('restify');
+const should = require('should');
 
-const gatewayPort = 8800
-const port = 3300
+const gatewayPort = 8800;
+const port = 3300;
 const baseConfig = {
   edgemicro: {
     port: gatewayPort,
@@ -17,10 +17,10 @@ const baseConfig = {
   proxies: [
     { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
   ]
-}
+};
 
-var gateway
-var server
+var gateway;
+var server;
 
 const startGateway = (config, handler, done) => {
   server = restify.createServer({});
@@ -31,26 +31,26 @@ const startGateway = (config, handler, done) => {
   server.get('/', handler);
 
   server.listen(port, function() {
-    console.log('API Server listening at %s', JSON.stringify(server.address()))
+    console.log('API Server listening at %s', JSON.stringify(server.address()));
 
-    gateway = gatewayService(config)
+    gateway = gatewayService(config);
 
-    done()
-  })
-}
+    done();
+  });
+};
 
 describe('test configuration handling', () => {
   afterEach((done) => {
     if (gateway) {
-      gateway.stop(() => {})
+      gateway.stop(() => {});
     }
 
     if (server) {
-      server.close()
+      server.close();
     }
 
-    done()
-  })
+    done();
+  });
 
   describe('headers', () => {
     describe('host', () => {
@@ -59,50 +59,50 @@ describe('test configuration handling', () => {
             console.log('localhost:' + port);
             console.log(req.headers.host);
             //
-          assert.equal('localhost:' + port, req.headers.host)
-          res.end('OK')
+          assert.equal('localhost:' + port, req.headers.host);
+          res.end('OK');
         }, () => {
           gateway.start((err) => {
-            assert(!err, err)
+            assert(!err, err);
 
             request({
               method: 'GET',
               url: 'http://localhost:' + gatewayPort + '/v1'
             }, (err, r, body) => {
-              assert(!err, err)
-              assert.equal('OK', body)
-              done()
-            })
-          })
-        })
-      })
+              assert(!err, err);
+              assert.equal('OK', body);
+              done();
+            });
+          });
+        });
+      });
 
       it('true', (done) => {
-        var config = _.cloneDeep(baseConfig)
+        var config = _.cloneDeep(baseConfig);
 
         config.headers = {
           host: false
-        }
+        };
 
         startGateway(config, (req, res, next) => {
           console.log(req.headers);
-          assert.equal('localhost:' + gatewayPort, req.headers.host)
-          res.end('OK')
+          assert.equal('localhost:' + gatewayPort, req.headers.host);
+          res.end('OK');
         }, () => {
           gateway.start((err) => {
-            assert(!err, err)
+            assert(!err, err);
 
             request({
               method: 'GET',
               url: 'http://localhost:' + gatewayPort + '/v1'
             }, (err, r, body) => {
-              assert(!err, err)
-              assert.equal('OK', body)
-              done()
-            })
-          })
-        })
-      })
-    })
-  })
-})
+              assert(!err, err);
+              assert.equal('OK', body);
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
+});

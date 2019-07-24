@@ -1,24 +1,24 @@
-'use strict'
+'use strict';
 
-const _ = require('lodash')
-const assert = require('assert')
-const gatewayService = require('../index')
-const request = require('request')
-const http = require('http')
-const should = require('should')
+const _ = require('lodash');
+const assert = require('assert');
+const gatewayService = require('../index');
+const request = require('request');
+const http = require('http');
+const should = require('should');
 const fs = require('fs');
 const net = require('net');
 const tls = require('tls');
 const url = require('url');
 const util = require('util');
 
-const gatewayPort = 8800
+const gatewayPort = 8800;
 const proxyPort = 4490;
-const port = 3300
+const port = 3300;
 
-var gateway
-var proxy
-var server
+var gateway;
+var proxy;
+var server;
 
 const startGateway = (config, handler, done) => {
 
@@ -53,7 +53,7 @@ const startGateway = (config, handler, done) => {
       targetConnection.write(head);
       targetConnection.pipe(cltSocket);
       cltSocket.pipe(targetConnection);
-    } 
+    };
 
     var targetUrl = url.parse(util.format('%s://%s', proto, req.url));
 
@@ -82,35 +82,35 @@ const startGateway = (config, handler, done) => {
   server = http.createServer(handler);
 
   server.listen(port, function() {
-    console.log('API Server listening at %s', JSON.stringify(server.address()))
+    console.log('API Server listening at %s', JSON.stringify(server.address()));
 
     proxy.listen(proxyPort, function(){
-      console.log('Proxy Server listening at %s',JSON.stringify(server.address()))
-      gateway = gatewayService(config)
+      console.log('Proxy Server listening at %s',JSON.stringify(server.address()));
+      gateway = gatewayService(config);
 
-      done()
+      done();
     }); 
     
-  })
-}
+  });
+};
 
 describe('test configuration handling', () => {
   afterEach((done) => {
     if (gateway) {
-      gateway.stop(() => {})
+      gateway.stop(() => {});
     }
 
     if (server) {
-      server.close()
-      proxy.close()
+      server.close();
+      proxy.close();
     }
 
     if(process.env.NO_PROXY) {
       process.env.NO_PROXY = undefined;
     }
 
-    done()
-  })
+    done();
+  });
 
   describe('proxy', () => {
     describe('non tunneling http proxy', () => {
@@ -125,30 +125,30 @@ describe('test configuration handling', () => {
           proxies: [
             { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
           ]
-        }
+        };
 
         startGateway(baseConfig, (req, res) => {
-          assert.equal('localhost:' + proxyPort, req.headers.host)
-          res.end('OK')
+          assert.equal('localhost:' + proxyPort, req.headers.host);
+          res.end('OK');
         }, () => {
           gateway.start((err) => {
-            assert.ok(!err, err)
+            assert.ok(!err, err);
 
             request({
               method: 'GET',
               url: 'http://localhost:' + gatewayPort + '/v1'
             }, (err, r, body) => {
-              assert.ok(!err, err)
-              assert.equal(r.statusCode, 200)
-              done()
-            })
-          })
-        })
-      })
+              assert.ok(!err, err);
+              assert.equal(r.statusCode, 200);
+              done();
+            });
+          });
+        });
+      });
 
       it('will respect the no_proxy variable', (done) => {
         
-        process.env.NO_PROXY = 'localhost'
+        process.env.NO_PROXY = 'localhost';
         const baseConfig = {
           edgemicro: {
             port: gatewayPort,
@@ -158,26 +158,26 @@ describe('test configuration handling', () => {
           proxies: [
             { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
           ]
-        }
+        };
 
         startGateway(baseConfig, (req, res) => {
-          assert.equal('localhost:' + port, req.headers.host)
-          res.end('OK')
+          assert.equal('localhost:' + port, req.headers.host);
+          res.end('OK');
         }, () => {
           gateway.start((err) => {
-            assert.ok(!err, err)
+            assert.ok(!err, err);
 
             request({
               method: 'GET',
               url: 'http://localhost:' + gatewayPort + '/v1'
             }, (err, r, body) => {
-              assert.ok(!err, err)
-              assert.equal(r.statusCode, 200)
-              done()
-            })
-          })
-        })
-      })
+              assert.ok(!err, err);
+              assert.equal(r.statusCode, 200);
+              done();
+            });
+          });
+        });
+      });
 
       it('route traffic through an http proxy with forced non-tunneling', (done) => {
         
@@ -191,26 +191,26 @@ describe('test configuration handling', () => {
           proxies: [
             { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
           ]
-        }
+        };
 
         startGateway(baseConfig, (req, res) => {
-          assert.equal('localhost:' + proxyPort, req.headers.host)
-          res.end('OK')
+          assert.equal('localhost:' + proxyPort, req.headers.host);
+          res.end('OK');
         }, () => {
           gateway.start((err) => {
-            assert.ok(!err, err)
+            assert.ok(!err, err);
 
             request({
               method: 'GET',
               url: 'http://localhost:' + gatewayPort + '/v1'
             }, (err, r, body) => {
-              assert.ok(!err, err)
-              assert.equal(r.statusCode, 200)
-              done()
-            })
-          })
-        })
-      })
+              assert.ok(!err, err);
+              assert.equal(r.statusCode, 200);
+              done();
+            });
+          });
+        });
+      });
 
       it('route traffic through an http proxy with forced tunneling', (done) => {
         
@@ -224,30 +224,30 @@ describe('test configuration handling', () => {
           proxies: [
             { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
           ]
-        }
+        };
 
         startGateway(baseConfig, (req, res) => {
-          assert.equal('localhost:' + port, req.headers.host)
-          res.end('OK')
+          assert.equal('localhost:' + port, req.headers.host);
+          res.end('OK');
         }, () => {
           gateway.start((err) => {
-            assert.ok(!err, err)
+            assert.ok(!err, err);
 
             request({
               method: 'GET',
               url: 'http://localhost:' + gatewayPort + '/v1'
             }, (err, r, body) => {
-              assert.ok(!err, err)
-              assert.equal(r.statusCode, 200)
-              done()
-            })
-          })
-        })
-      })
+              assert.ok(!err, err);
+              assert.equal(r.statusCode, 200);
+              done();
+            });
+          });
+        });
+      });
 
       it('wont route traffic through an http proxy with forced tunneling with no_proxy', (done) => {
         
-        process.env.NO_PROXY = 'localhost'
+        process.env.NO_PROXY = 'localhost';
         const baseConfig = {
           edgemicro: {
             port: gatewayPort,
@@ -258,27 +258,27 @@ describe('test configuration handling', () => {
           proxies: [
             { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
           ]
-        }
+        };
 
         startGateway(baseConfig, (req, res) => {
-          assert.equal('localhost:' + port, req.headers.host)
-          res.end('OK')
+          assert.equal('localhost:' + port, req.headers.host);
+          res.end('OK');
         }, () => {
           gateway.start((err) => {
-            assert.ok(!err, err)
+            assert.ok(!err, err);
 
             request({
               method: 'GET',
               url: 'http://localhost:' + gatewayPort + '/v1'
             }, (err, r, body) => {
-              assert.ok(!err, err)
-              assert.equal(r.statusCode, 200)
-              done()
-            })
-          })
-        })
-      })
+              assert.ok(!err, err);
+              assert.equal(r.statusCode, 200);
+              done();
+            });
+          });
+        });
+      });
 
-    })
-  })
-})
+    });
+  });
+});
