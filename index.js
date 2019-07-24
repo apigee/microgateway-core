@@ -32,14 +32,14 @@ module.exports = function (config) {
 
 module.exports.Logging = logging;
 Gateway.prototype.start = function (cb) {
-  //const logger =logging.getLogger();
+  const logger = logging.getLogger();
   //const config = configService.get();
   let plugins  = this.plugins;
   debug('starting edgemicro');
   //debug('loaded config ' + util.inspect(config, {colors: true}));
   gateway.start( plugins, function (err, server) {
     if (err) {
-      console.error('error starting edge micro', err);
+      logger.consoleLog('error','error starting edge micro', err);
     }
     return cb(err, server)
   });
