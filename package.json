@@ -13,7 +13,7 @@
     "debug": "~3.1.0",
     "helper": "0.0.13",
     "lodash": "^4.17.15",
-    "microgateway-config": "^3.0.2",
+    "microgateway-config": "^3.0.3",
     "minimatch": "^3.0.4",
     "opentracing": "^0.14.3",
     "request": "~2.87.0",
