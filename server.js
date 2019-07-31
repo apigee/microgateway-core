@@ -1,5 +1,6 @@
 'use strict'
 const assert = require('assert')
+const writeConsoleLog = require('./lib/logging').writeConsoleLog;
 //var path = require('path')
 //var gateway = require('./index');
 //var uuid = require('uuid/v1');
@@ -16,7 +17,7 @@ process.argv.forEach(function (val) {
   }
   let k = params[0];
   let v = params[1];
-  console.log('setting key %s to %s', k, v)
+  writeConsoleLog('log','setting key %s to %s', k, v)
   switch (k) {
     case 'key' :
       key = v;
@@ -50,11 +51,11 @@ edgeConfig.get(options, function (err, config) {
   //load plugins
   var pluginsDir = path.normalize(config.edgemicro.plugins.dir);
   var plugins = server.getPluginsLoader().loadPlugins(pluginsDir);
-  plugins && console.log('plugins loaded ' + plugins.length)
+  plugins && writeConsoleLog('log','plugins loaded ' + plugins.length)
   //start the server
   server.start(plugins, (err , server ) => {
     assert(!err, err)
-    console.log('server is started');
+    writeConsoleLog('log','server is started');
   });
 })
 
