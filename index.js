@@ -10,6 +10,8 @@ var uuid = require('uuid')
 var configService = require('./lib/config');
 var _ = require('lodash');
 
+const CONSOLE_LOG_TAG = 'microgateway-core index';
+
 /**
  *
  * @param config must include {key:string,secret:string}
@@ -39,7 +41,7 @@ Gateway.prototype.start = function (cb) {
   //debug('loaded config ' + util.inspect(config, {colors: true}));
   gateway.start( plugins, function (err, server) {
     if (err) {
-      logger.consoleLog('error','error starting edge micro', err);
+      logger.consoleLog('error',{component: CONSOLE_LOG_TAG},'error starting edge micro', err);
     }
     return cb(err, server)
   });
