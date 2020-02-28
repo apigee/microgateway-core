@@ -109,6 +109,10 @@ describe('test configuration handling', () => {
       process.env.NO_PROXY = undefined;
     }
 
+    if(process.env.HTTPS_PROXY) {
+      process.env.HTTPS_PROXY = undefined;
+    }
+
     done()
   })
 
@@ -120,7 +124,10 @@ describe('test configuration handling', () => {
           edgemicro: {
             port: gatewayPort,
             logging: { level: 'info', dir: './tests/log' },
-            proxy: 'http://localhost:' + proxyPort
+            proxy: {
+              url: 'http://localhost:' + proxyPort,
+              enabled: true
+            }
           },
           proxies: [
             { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
@@ -153,7 +160,10 @@ describe('test configuration handling', () => {
           edgemicro: {
             port: gatewayPort,
             logging: { level: 'info', dir: './tests/log' },
-            proxy: 'http://localhost:' + proxyPort
+            proxy: {
+              url: 'http://localhost:' + proxyPort,
+              enabled: true
+            }
           },
           proxies: [
             { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
@@ -185,8 +195,11 @@ describe('test configuration handling', () => {
           edgemicro: {
             port: gatewayPort,
             logging: { level: 'info', dir: './tests/log' },
-            proxy: 'http://localhost:' + proxyPort,
-            proxy_tunnel: false
+            proxy: {
+              url: 'http://localhost:' + proxyPort,
+              enabled: true,
+              tunnel: false
+            }
           },
           proxies: [
             { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
@@ -218,8 +231,11 @@ describe('test configuration handling', () => {
           edgemicro: {
             port: gatewayPort,
             logging: { level: 'info', dir: './tests/log' },
-            proxy: 'http://localhost:' + proxyPort,
-            proxy_tunnel: true
+            proxy: {
+              url: 'http://localhost:' + proxyPort,
+              enabled: true,
+              tunnel: true
+            }
           },
           proxies: [
             { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
@@ -252,8 +268,11 @@ describe('test configuration handling', () => {
           edgemicro: {
             port: gatewayPort,
             logging: { level: 'info', dir: './tests/log' },
-            proxy: 'http://localhost:' + proxyPort,
-            proxy_tunnel: true
+            proxy: {
+              url: 'http://localhost:' + proxyPort,
+              enabled: true,
+              tunnel: true
+            }
           },
           proxies: [
             { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
@@ -262,6 +281,116 @@ describe('test configuration handling', () => {
 
         startGateway(baseConfig, (req, res) => {
           assert.equal('localhost:' + port, req.headers.host)
+          res.end('OK')
+        }, () => {
+          gateway.start((err) => {
+            assert.ok(!err, err)
+
+            request({
+              method: 'GET',
+              url: 'http://localhost:' + gatewayPort + '/v1'
+            }, (err, r, body) => {
+              assert.ok(!err, err)
+              assert.equal(r.statusCode, 200)
+              done()
+            })
+          })
+        })
+      })
+
+
+      it('will respect the bypass config', (done) => {
+        
+        process.env.NO_PROXY = ''
+        const baseConfig = {
+          edgemicro: {
+            port: gatewayPort,
+            logging: { level: 'info', dir: './tests/log' },
+            proxy: {
+              url: 'http://localhost:' + proxyPort,
+              enabled: true,
+              bypass: 'localhost'
+            }
+          },
+          proxies: [
+            { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
+          ]
+        }
+
+        startGateway(baseConfig, (req, res) => {
+          assert.equal('localhost:' + port, req.headers.host)
+          res.end('OK')
+        }, () => {
+          gateway.start((err) => {
+            assert.ok(!err, err)
+
+            request({
+              method: 'GET',
+              url: 'http://localhost:' + gatewayPort + '/v1'
+            }, (err, r, body) => {
+              assert.ok(!err, err)
+              assert.equal(r.statusCode, 200)
+              done()
+            })
+          })
+        })
+      })
+
+      it('will respect the enabled config', (done) => {
+        
+        const baseConfig = {
+          edgemicro: {
+            port: gatewayPort,
+            logging: { level: 'info', dir: './tests/log' },
+            proxy: {
+              url: 'http://localhost:' + proxyPort,
+              enabled: false,
+            }
+          },
+          proxies: [
+            { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
+          ]
+        }
+
+        startGateway(baseConfig, (req, res) => {
+          assert.equal('localhost:' + port, req.headers.host)
+          res.end('OK')
+        }, () => {
+          gateway.start((err) => {
+            assert.ok(!err, err)
+
+            request({
+              method: 'GET',
+              url: 'http://localhost:' + gatewayPort + '/v1'
+            }, (err, r, body) => {
+              assert.ok(!err, err)
+              assert.equal(r.statusCode, 200)
+              done()
+            })
+          })
+        })
+      })
+
+
+      it('will respect HTTPS_PROXY when the proxy.url is not set', (done) => {
+
+        process.env.HTTPS_PROXY = 'http://localhost:' + proxyPort;
+
+        const baseConfig = {
+          edgemicro: {
+            port: gatewayPort,
+            logging: { level: 'info', dir: './tests/log' },
+            proxy: {
+              enabled: true,
+            }
+          },
+          proxies: [
+            { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
+          ]
+        }
+
+        startGateway(baseConfig, (req, res) => {
+          assert.equal('localhost:' + proxyPort, req.headers.host)
           res.end('OK')
         }, () => {
           gateway.start((err) => {

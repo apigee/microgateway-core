@@ -119,7 +119,10 @@ describe('test configuration handling', () => {
           edgemicro: {
             port: gatewayPort,
             logging: { level: 'info', dir: './tests/log' },
-            proxy: 'https://localhost:' + proxyPort
+            proxy: {
+              url: 'https://localhost:' + proxyPort,
+              enabled: true
+            }
           },
           proxies: [
             { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
@@ -163,8 +166,11 @@ describe('test configuration handling', () => {
           edgemicro: {
             port: gatewayPort,
             logging: { level: 'info', dir: './tests/log' },
-            proxy: 'https://localhost:' + proxyPort,
-            proxy_tunnel: false
+            proxy: {
+              url: 'https://localhost:' + proxyPort,
+              enabled: true,
+              tunnel: false
+            }
           },
           proxies: [
             { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
@@ -211,8 +217,11 @@ describe('test configuration handling', () => {
           edgemicro: {
             port: gatewayPort,
             logging: { level: 'info', dir: './tests/log' },
-            proxy: 'https://localhost:' + proxyPort,
-            proxy_tunnel: true
+            proxy: {
+              url: 'https://localhost:' + proxyPort,
+              enabled: true,
+              tunnel: true
+            }
           },
           proxies: [
             { base_path: '/v1', secure: false, url: 'http://localhost:' + port }
