@@ -3,7 +3,7 @@ var debug = require('debug')('gateway:index');
 var gateway = require('./lib/gateway');
 var assert = require('assert');
 var logging = require('./lib/logging');
-
+var adminServer = require('./lib/admin-server');
 
 var pluginsLib = require('./lib/plugins');
 var uuid = require('uuid')
@@ -31,6 +31,7 @@ module.exports = function (config) {
 }
 
 module.exports.Logging = logging;
+module.exports.AdminServer = adminServer;
 Gateway.prototype.start = function (cb) {
   const logger = logging.getLogger();
   //const config = configService.get();
