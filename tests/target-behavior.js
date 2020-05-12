@@ -87,6 +87,9 @@ describe('target behavior', () => {
             'targetSecure' : false,
             'targetHostname' : 'localhost',
             'targetPort' : 8888,
+            transactionContextData: {
+                'targetHostName' : 'localhost'
+            }
         }
 
         var sourceResponse = {
@@ -163,6 +166,9 @@ describe('target behavior', () => {
             'targetSecure' : false,
             'targetHostname' : 'this.does.not.exist',
             'targetPort' : 8999,
+            transactionContextData: {
+                'targetHostName' : 'this.does.not.exist'
+            }
         }
 
         var sourceResponse = {
@@ -245,6 +251,9 @@ describe('target behavior', () => {
                 'targetSecure' : false,
                 'targetHostname' : 'localhost',
                 'targetPort' : 8999,
+                transactionContextData: {
+                    'targetHostName' : 'this.does.not.exist'
+                }
             }
 
             var sourceResponse = {
