@@ -1,6 +1,6 @@
 {
   "name": "microgateway-core",
-  "version": "3.1.5",
+  "version": "3.1.6",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
@@ -2140,8 +2140,9 @@
       }
     },
     "microgateway-config": {
-      "version": "github:apigee/microgateway-config#8f8d020b4793cc8bf78814d7cc469f71301bf586",
-      "from": "github:apigee/microgateway-config#for-3.1.5",
+      "version": "3.1.4",
+      "resolved": "https://registry.npmjs.org/microgateway-config/-/microgateway-config-3.1.4.tgz",
+      "integrity": "sha512-mNuxLABYyOLD4wJbAaldM8el8yyHE5hI4ggWGMrcATzXieIVbAr2+Zq0viz7/gzQdi4D8aSTB5ZaCIIGgTuOwQ==",
       "requires": {
         "apigeetool": "^0.10.0",
         "async": "^1.5.2",

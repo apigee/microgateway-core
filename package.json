@@ -1,6 +1,6 @@
 {
   "name": "microgateway-core",
-  "version": "3.1.5",
+  "version": "3.1.6",
   "description": "Core engine for Apigee Edge Microgateway",
   "main": "index.js",
   "license": "Apache-2.0",
@@ -13,7 +13,7 @@
     "debug": "~3.1.0",
     "helper": "0.0.13",
     "lodash": "^4.17.15",
-    "microgateway-config": "apigee/microgateway-config#for-3.1.5",
+    "microgateway-config": "^3.1.4",
     "minimatch": "^3.0.4",
     "opentracing": "^0.14.3",
     "request": "~2.87.0",
