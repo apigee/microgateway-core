@@ -28,7 +28,7 @@ describe('plugin behavior', () => {
     });
   });
 
-  it('will provide three arguments to in req, res, data, next format', (done) => {
+  it('will provide four arguments to in req, res, data, next format', (done) => {
     var plugins = {
       'ondata_request': function(req, res, data, next) {
         assert.equal(req, 'foo');
@@ -51,7 +51,7 @@ describe('plugin behavior', () => {
     });
   });
 
-  it('will provide three arguments to in req, res, targetRes, data,  next format', (done) => {
+  it('will provide five arguments to in req, res, targetRes, data,  next format', (done) => {
     var plugins = {
       'ondata_request': function(req, res, targetResponse, data, next) {
         assert.equal(req, 'foo');

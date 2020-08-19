@@ -96,6 +96,8 @@ describe('target behavior', () => {
             'proxy' : {
                 'agent' : undefined
             },
+            'on': function(event, cb) {
+            },
             'content-length' : 50
         }
 
@@ -174,6 +176,8 @@ describe('target behavior', () => {
         var sourceResponse = {
             'proxy' : {
                 'agent' : undefined
+            },
+            'on': function(event, cb) {
             },
             'content-length' : 50
         }
@@ -259,6 +263,8 @@ describe('target behavior', () => {
             var sourceResponse = {
                 'proxy' : {
                     'agent' : undefined
+                },
+                'on': function(event, cb) {
                 },
                 'content-length' : 50
             }

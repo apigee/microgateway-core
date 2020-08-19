@@ -301,6 +301,27 @@ describe('test lifecycle events', function() {
       });
     });
   });
+
+  it('should keep the header set on the source response', function(done) {
+    this.timeout(20000);
+    const testPlugin = TestPlugin((type, data, cb) => cb());
+    const handler = testPlugin.init();
+    handler.onresponse = (sourceReq, sourceRes, targetRes, data, next) => {
+      sourceRes.setHeader('content-type', 'application/octet-stream');
+      sourceRes.setHeader('original-content-type', targetRes.headers['content-type']);
+      next();
+    };
+    gateway.addPlugin('test', () => handler);
+
+    gateway.start((err) => {
+      assert(!err, err);
+      request({ method: 'GET', url: 'http://localhost:' + gatewayPort + '/v1/echo/get' }, (err, r) => {
+        assert.equal(r.headers['content-type'], 'application/octet-stream');
+        assert.equal(r.headers['original-content-type'], 'application/json');
+        done();
+      });
+    });
+  });
 });
 
 function _findHeaders(headers, expectedHeaders) {
