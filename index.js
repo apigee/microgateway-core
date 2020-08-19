@@ -50,11 +50,11 @@ Gateway.prototype.stop = function(cb){
   gateway.stop(cb);
 }
 
-Gateway.prototype.addPlugin = function (name,plugin) {
+Gateway.prototype.addPlugin = function (name,plugin,allPluginNames) {
   assert(name,"plugin must have a name")
   assert(_.isString(name),"name must be a string");
   assert(_.isFunction(plugin),"plugin must be a function(config,logger,stats){return {onresponse:function(req,res,data,next){}}}");
-  const handler = this.pluginLoader.loadPlugin({plugin:plugin,pluginName:name});
+  const handler = this.pluginLoader.loadPlugin({plugin:plugin,pluginName:name,allPluginNames:allPluginNames});
   this.plugins.push(handler);
 };
 

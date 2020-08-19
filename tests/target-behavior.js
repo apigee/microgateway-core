@@ -87,11 +87,16 @@ describe('target behavior', () => {
             'targetSecure' : false,
             'targetHostname' : 'localhost',
             'targetPort' : 8888,
+            transactionContextData: {
+                'targetHostName' : 'localhost'
+            }
         }
 
         var sourceResponse = {
             'proxy' : {
                 'agent' : undefined
+            },
+            'on': function(event, cb) {
             },
             'content-length' : 50
         }
@@ -163,11 +168,16 @@ describe('target behavior', () => {
             'targetSecure' : false,
             'targetHostname' : 'this.does.not.exist',
             'targetPort' : 8999,
+            transactionContextData: {
+                'targetHostName' : 'this.does.not.exist'
+            }
         }
 
         var sourceResponse = {
             'proxy' : {
                 'agent' : undefined
+            },
+            'on': function(event, cb) {
             },
             'content-length' : 50
         }
@@ -245,11 +255,16 @@ describe('target behavior', () => {
                 'targetSecure' : false,
                 'targetHostname' : 'localhost',
                 'targetPort' : 8999,
+                transactionContextData: {
+                    'targetHostName' : 'this.does.not.exist'
+                }
             }
 
             var sourceResponse = {
                 'proxy' : {
                     'agent' : undefined
+                },
+                'on': function(event, cb) {
                 },
                 'content-length' : 50
             }
