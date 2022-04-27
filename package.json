@@ -9,7 +9,7 @@
     "url": "git+https://github.com/apigee/microgateway-core.git"
   },
   "dependencies": {
-    "async": "~1.5.2",
+    "async": "~2.6.4",
     "debug": "~3.1.0",
     "lodash": "^4.17.19",
     "microgateway-config": "^3.3.0",
