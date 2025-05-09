@@ -483,9 +483,11 @@ describe('test configuration handling', () => {
       });
     });
   
-    it('will verify target response matches the source response', (done) => {
+    it('will verify target response matches the source response', function(done) {
+      // Increase timeout since we're making multiple HTTP requests
+      this.timeout(30000);
+      
       const requestPromise = util.promisify(request);
-  
       const baseConfig = {
         edgemicro: {
           port: gatewayPort,
@@ -494,37 +496,55 @@ describe('test configuration handling', () => {
         proxies: [
           { base_path: '/mocktarget', secure: false, url: 'http://mocktarget.apigee.net/' }
         ]
-      }
-  
+      };
+      
+      // Helper function to make requests with better error handling
+      const makeRequest = async (statusCode) => {
+        console.log(`Testing ${statusCode} status code`);
+        try {
+          const response = await requestPromise({ 
+            method: 'GET', 
+            url: `http://localhost:${gatewayPort}/mocktarget/statuscode/${statusCode}`,
+            timeout: 5000 // Add timeout to each request
+          });
+          assert.strictEqual(response.statusCode, parseInt(statusCode));
+          console.log(`✓ ${statusCode} test passed`);
+          return true;
+        } catch (err) {
+          console.error(`✗ ${statusCode} test failed:`, err.message);
+          throw err;
+        }
+      };
+      
       startGateway(baseConfig, (req, res) => {
-        res.end('OK')
+        res.end('OK');
       }, () => {
+        console.log('Starting gateway...');
+        
         gateway.start(async (err) => {
-          assert.ok(!err, err);
-  
-          var response = await requestPromise({ method: 'GET', url: 'http://localhost:' + gatewayPort + `/mocktarget/statuscode/200` });
-          assert.strictEqual(response.statusCode, 200)
-  
-          var response = await requestPromise({ method: 'GET', url: 'http://localhost:' + gatewayPort + `/mocktarget/statuscode/300` });
-          assert.strictEqual(response.statusCode, 300)
-  
-          var response = await requestPromise({ method: 'GET', url: 'http://localhost:' + gatewayPort + `/mocktarget/statuscode/400` });
-          assert.strictEqual(response.statusCode, 400)
-  
-          var response = await requestPromise({ method: 'GET', url: 'http://localhost:' + gatewayPort + `/mocktarget/statuscode/500` });
-          assert.strictEqual(response.statusCode, 500)
-  
-          var response = await requestPromise({ method: 'GET', url: 'http://localhost:' + gatewayPort + `/mocktarget/statuscode/501` });
-          assert.strictEqual(response.statusCode, 501)
-  
-          var response = await requestPromise({ method: 'GET', url: 'http://localhost:' + gatewayPort + `/mocktarget/statuscode/503` });
-          assert.strictEqual(response.statusCode, 503)
-  
-          var response = await requestPromise({ method: 'GET', url: 'http://localhost:' + gatewayPort + `/mocktarget/statuscode/505` });
-          assert.strictEqual(response.statusCode, 505)
-  
-          done();
-        })
+          if (err) {
+            console.error('Gateway start error:', err);
+            return done(err);
+          }
+          
+          console.log('Gateway started successfully');
+          
+          try {
+            // Use a more structured approach for better debugging
+            const statusCodes = ['200', '300', '400', '500', '501', '503', '505'];
+            
+            // Process status codes sequentially
+            for (const code of statusCodes) {
+              await makeRequest(code);
+            }
+            
+            console.log('All tests passed successfully');
+            done();
+          } catch (err) {
+            console.error('Test failed:', err.message);
+            done(err);
+          }
+        });
       });
     });
   });
