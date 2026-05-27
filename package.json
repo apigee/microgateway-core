@@ -33,7 +33,7 @@
     "should": "~13.2.3",
     "sinon": "^20.0.0",
     "test-until": "^1.1.1",
-    "tmp": "0.2.3"
+    "tmp": "0.2.6"
   },
   "scripts": {
     "start": "node server.js",
